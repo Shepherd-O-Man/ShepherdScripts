@@ -12,16 +12,20 @@
 --To get the code do "!ggit download [file path]". EXAMPLE: "Test/Text.txt"
 --Refresh starfall and rename the outputted file located in Data Files
 
-
 --YOUR REPO
 local REPO = "Shepherd-O-Man/StarFallScripts"
-local LINK = "https://api.github.com/repos/"..REPO.."/contents/"
 
+
+
+--Vars
+local LINK = "https://api.github.com/repos/"..REPO.."/contents/"
 
 --CommandHandler
 hook.add("PlayerChat", "Command", function(ply,text)
     if ply == owner() then
         local E = string.explode(" ",text)
+        
+        --Get command
         if text == "!ggit get" then
             if http.canRequest() then
                 http.get(LINK, function(content)
@@ -38,6 +42,8 @@ hook.add("PlayerChat", "Command", function(ply,text)
                 print("Error 001: Cannot request!")
             end
         end
+        
+        --Download command
         if E[1] == "!ggit" and E[2] == "download" then
             if E[3] != nil then
                 if http.canRequest() then
