@@ -4,6 +4,7 @@
 
 --This is a script to get scripts on Github
 --Handy huh? Don't have to even leave gmod as long as you know your repo!
+--At the moment this works best with repos that do not have directories. This will be a future implementation.
 
 --HOW TO USE
 
