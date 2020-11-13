@@ -15,42 +15,24 @@
 --YOUR REPO
 local REPO = "Shepherd-O-Man/StarFallScripts"
 
-
-
---Vars
-local LINK = "https://api.github.com/repos/"..REPO.."/contents/"
-
---CommandHandler
+--CommandHook
 hook.add("PlayerChat", "Command", function(ply,text)
     if ply == owner() then
+        
         local E = string.explode(" ",text)
         
-        --Get command
-        if text == "!ggit get" then
-            if http.canRequest() then
-                http.get(LINK, function(content)
-                    local T = json.decode(content)
-                    print(table.count(T))
-                    for x = 1,table.count(T),1 do
-                        print(T[x]["name"])
-                    end
-                end,
-                function()
-                    print("Error 002: Cannot access URL!")
-                end)
-            else
-                print("Error 001: Cannot request!")
-            end
-        end
+        --Keyword handler
+        if string.lower(E[1]) == "!ggit" then
         
-        --Download command
-        if E[1] == "!ggit" and E[2] == "download" then
-            if E[3] != nil then
+            --Get command
+            if string.lower(E[2]) == "get" then
                 if http.canRequest() then
-                    http.get("https://raw.githubusercontent.com/"..REPO.."/master/"..E[3], function(content)
-                        print("Writing file...")
-                        file.write("output.txt",content)
-                        print("Done!")
+                    http.get("https://api.github.com/repos/"..REPO.."/contents/", function(content)
+                        local T = json.decode(content)
+                        print(table.count(T))
+                        for x = 1,table.count(T),1 do
+                            print(T[x]["name"])
+                        end
                     end,
                     function()
                         print("Error 002: Cannot access URL!")
@@ -58,8 +40,26 @@ hook.add("PlayerChat", "Command", function(ply,text)
                 else
                     print("Error 001: Cannot request!")
                 end
-            else
-                print("Error 003: Cannot locate file argument")
+            end
+            
+            --Download command
+            if string.lower(E[2]) == "download" then
+                if E[3] != nil then
+                    if http.canRequest() then
+                        http.get("https://raw.githubusercontent.com/"..REPO.."/master/"..E[3], function(content)
+                            print("Writing file...")
+                            file.write("output.txt",content)
+                            print("Done!")
+                        end,
+                        function()
+                            print("Error 002: Cannot access URL!")
+                        end)
+                    else
+                        print("Error 001: Cannot request!")
+                    end
+                else
+                    print("Error 003: Cannot locate file argument")
+                end
             end
         end
     end
