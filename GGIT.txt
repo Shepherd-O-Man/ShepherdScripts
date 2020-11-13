@@ -3,14 +3,21 @@
 --@shared
 
 --This is a script to get scripts on Github
---Handy huh?
+--Handy huh? Don't have to even leave gmod as long as you know your repo!
 
 --HOW TO USE
+
+--SETUP
 --Enter your repo below like this -> Username/Reponame
---To get a script use "!ggit get" to display a list of files within the repo.
+--You should be ready to use ggit!
+
+--GETTING REPO FILES
+--To list scripts in the repo use "!ggit get".
 --This should return both folders and files. (Files haing .txt, .md, etc)
+
+--DOWNLOADING GITHUB FILE
 --To get the code do "!ggit download [file path]". EXAMPLE: "Test/Text.txt"
---Refresh starfall and rename the outputted file located in Data Files
+--Refresh starfall files. The outputted file should be located in Data Files named ggitoutput.txt.
 
 --YOUR REPO
 local REPO = "Shepherd-O-Man/StarFallScripts"
@@ -29,7 +36,6 @@ hook.add("PlayerChat", "Command", function(ply,text)
                 if http.canRequest() then
                     http.get("https://api.github.com/repos/"..REPO.."/contents/", function(content)
                         local T = json.decode(content)
-                        print(table.count(T))
                         for x = 1,table.count(T),1 do
                             print(T[x]["name"])
                         end
@@ -48,7 +54,7 @@ hook.add("PlayerChat", "Command", function(ply,text)
                     if http.canRequest() then
                         http.get("https://raw.githubusercontent.com/"..REPO.."/master/"..E[3], function(content)
                             print("Writing file...")
-                            file.write("output.txt",content)
+                            file.write("ggitoutput.txt",content)
                             print("Done!")
                         end,
                         function()
